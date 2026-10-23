@@ -4,244 +4,586 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Convert JPG, PNG and WebP images into PDF files for free. Choose page size and orientation.">
-<title>Free PDF Tool | Image to PDF</title>
+<meta name="description" content="Free online Image to PDF and Merge PDF tools. Process documents privately in your browser.">
+<title>Free PDF Tool | Image to PDF and Merge PDF</title>
+
 <style>
-:root{--blue:#185abd;--dark:#15345b;--bg:#f3f7fc;--text:#17263c;--muted:#63738a;--line:#dce5f0}
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
-header{background:linear-gradient(135deg,#12345b,#246bd0);color:white;text-align:center;padding:35px 16px}
-header h1{margin:0 0 10px;font-size:clamp(26px,5vw,38px)}
-header p{margin:0;line-height:1.6}
-main{max-width:850px;margin:30px auto;padding:0 16px}
-.panel{background:white;border:1px solid var(--line);border-radius:18px;padding:clamp(18px,4vw,32px);box-shadow:0 8px 30px #18385b0c}
-h2{margin:0 0 10px}
-.intro{color:var(--muted);line-height:1.6}
-.upload{display:block;margin:22px 0;padding:26px 16px;border:2px dashed #83a9dd;background:#f6faff;border-radius:14px;text-align:center;cursor:pointer}
-.upload strong{display:block;margin-bottom:10px}
-input[type=file]{max-width:100%;margin-top:8px}
-.options{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin:22px 0}
-.field label{display:block;font-weight:bold;font-size:14px;margin-bottom:8px}
-select{width:100%;padding:12px;border:1px solid #cbd7e6;border-radius:9px;background:white;font-size:15px}
-.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px}
-button{border:0;border-radius:9px;padding:13px 19px;font-size:15px;font-weight:bold;cursor:pointer}
-.primary{background:var(--blue);color:white}
-.secondary{background:#e8eef7;color:var(--dark)}
-button:disabled{opacity:.5;cursor:not-allowed}
-#preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(125px,1fr));gap:12px;margin-top:18px}
-.thumb{min-width:0;border:1px solid var(--line);border-radius:10px;padding:9px;background:white}
-.thumb img{width:100%;height:115px;object-fit:contain;display:block;background:#f7f9fc}
-.thumb p{font-size:12px;overflow-wrap:anywhere;margin:8px 0 0}
-#message{margin-top:18px;line-height:1.6;overflow-wrap:anywhere}
-.note{color:var(--muted);font-size:13px;line-height:1.7;margin-top:22px}
-footer{text-align:center;padding:24px 14px;color:var(--muted);font-size:13px}
-@media(max-width:480px){header{padding:28px 14px}.actions button{width:100%}}
+:root {
+  --blue: #185abd;
+  --dark: #15345b;
+  --bg: #f3f7fc;
+  --text: #17263c;
+  --muted: #63738a;
+  --line: #dce5f0;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+header {
+  background: linear-gradient(135deg, #12345b, #246bd0);
+  color: white;
+  text-align: center;
+  padding: 32px 16px;
+}
+header h1 { margin: 0 0 10px; font-size: 34px; }
+header p { margin: 0; line-height: 1.6; }
+nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  border: 1px solid #ffffff70;
+  border-radius: 9px;
+}
+main { max-width: 900px; margin: 28px auto; padding: 0 15px; }
+.panel {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: clamp(18px, 4vw, 30px);
+  margin-bottom: 25px;
+  box-shadow: 0 8px 30px #18385b0c;
+}
+h2 { margin: 0 0 10px; }
+.intro { color: var(--muted); line-height: 1.6; }
+.upload {
+  display: block;
+  margin: 20px 0;
+  padding: 24px 14px;
+  border: 2px dashed #83a9dd;
+  background: #f6faff;
+  border-radius: 12px;
+  text-align: center;
+}
+.upload strong { display: block; margin-bottom: 10px; }
+input[type="file"] { max-width: 100%; margin-top: 10px; }
+.options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+.field label {
+  display: block;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cbd7e6;
+  border-radius: 9px;
+  background: white;
+  font-size: 15px;
+}
+.actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 20px; }
+button {
+  border: 0;
+  border-radius: 9px;
+  padding: 12px 17px;
+  font-size: 15px;
+  cursor: pointer;
+}
+.primary { background: var(--blue); color: white; font-weight: bold; }
+.secondary { background: #e8eef7; color: var(--dark); }
+button:disabled { opacity: .5; cursor: not-allowed; }
+#imagePreview {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+.thumb {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 8px;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+}
+.thumb img {
+  width: 100%;
+  height: 105px;
+  object-fit: contain;
+  background: #f7f9fc;
+}
+.thumb p { margin-bottom: 0; }
+.pdf-list { display: grid; gap: 10px; margin-top: 18px; }
+.pdf-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px;
+  background: #fbfdff;
+}
+.pdf-name {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+}
+.pdf-actions { display: flex; gap: 5px; flex-wrap: wrap; }
+.pdf-actions button { padding: 8px 10px; }
+.status { margin-top: 16px; line-height: 1.6; overflow-wrap: anywhere; }
+.note { color: var(--muted); font-size: 13px; line-height: 1.7; margin-top: 20px; }
+footer { text-align: center; padding: 24px 14px; color: var(--muted); font-size: 13px; }
+@media(max-width: 480px) {
+  header h1 { font-size: 27px; }
+  .actions button { width: 100%; }
+  .pdf-item { align-items: flex-start; flex-wrap: wrap; }
+}
 </style>
 </head>
+
 <body>
 <header>
-<h1>Free PDF Tool</h1>
-<p>Convert your images into a PDF — simply and privately.</p>
+  <h1>Free PDF Tool</h1>
+  <p>Simple, free PDF tools for your everyday needs.</p>
+  <nav>
+    <a href="#image-tool">Image to PDF</a>
+    <a href="#merge-tool">Merge PDF</a>
+  </nav>
 </header>
 
 <main>
-<section class="panel">
-<h2>Image to PDF Converter</h2>
-<p class="intro">Choose your images, select your page settings, and download one PDF. Each image gets its own page.</p>
 
-<label class="upload">
-<strong>Select JPG, PNG or WebP images</strong>
-<span>Choose one or several images from your device</span><br>
-<input id="images" type="file" accept="image/jpeg,image/png,image/webp" multiple>
-</label>
+<!-- TOOL 1: IMAGE TO PDF -->
+<section class="panel" id="image-tool">
+  <h2>Image to PDF Converter</h2>
+  <p class="intro">
+    Convert JPG, PNG and WebP images into a PDF. Each image gets its own page.
+  </p>
 
-<div id="count" aria-live="polite">No images selected.</div>
-<div id="preview"></div>
+  <label class="upload">
+    <strong>Select your images</strong>
+    Choose one or several images from your device.
+    <input id="images" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+  </label>
 
-<div class="options">
-<div class="field">
-<label for="paper">PDF page size</label>
-<select id="paper">
-<option value="a4">A4</option>
-<option value="letter">Letter</option>
-<option value="fit">Fit to image</option>
-</select>
-</div>
-<div class="field">
-<label for="orientation">Page orientation</label>
-<select id="orientation">
-<option value="portrait">Portrait</option>
-<option value="landscape">Landscape</option>
-<option value="auto">Match each image</option>
-</select>
-</div>
-<div class="field">
-<label for="margin">Page margin</label>
-<select id="margin">
-<option value="5">Small (5 mm)</option>
-<option value="10" selected>Normal (10 mm)</option>
-<option value="15">Large (15 mm)</option>
-<option value="0">No margin</option>
-</select>
-</div>
-</div>
+  <p id="imageCount" aria-live="polite">No images selected.</p>
+  <div id="imagePreview"></div>
 
-<div class="actions">
-<button class="primary" id="convert" disabled>Create PDF</button>
-<button class="secondary" id="clear">Clear selection</button>
-</div>
+  <div class="options">
+    <div class="field">
+      <label for="paper">PDF page size</label>
+      <select id="paper">
+        <option value="a4">A4</option>
+        <option value="letter">Letter</option>
+        <option value="fit">Fit to image</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="orientation">Page orientation</label>
+      <select id="orientation">
+        <option value="portrait">Portrait</option>
+        <option value="landscape">Landscape</option>
+        <option value="auto">Match each image</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="margin">Page margin</label>
+      <select id="margin">
+        <option value="5">Small (5 mm)</option>
+        <option value="10" selected>Normal (10 mm)</option>
+        <option value="15">Large (15 mm)</option>
+        <option value="0">No margin</option>
+      </select>
+    </div>
+  </div>
 
-<p id="message" role="status" aria-live="polite"></p>
-<p class="note"><strong>Your privacy matters:</strong> selected images are processed in your browser and are not uploaded to our website. An internet connection is needed to load the PDF library. For best clarity, use original, high-resolution images rather than photographs of screens.</p>
+  <div class="actions">
+    <button class="primary" id="createPdf" disabled>Create PDF</button>
+    <button class="secondary" id="clearImages">Clear selection</button>
+  </div>
+
+  <p class="status" id="imageMessage" role="status" aria-live="polite"></p>
 </section>
+
+<!-- TOOL 2: MERGE PDF -->
+<section class="panel" id="merge-tool">
+  <h2>Merge PDF Files</h2>
+  <p class="intro">
+    Combine two or more PDF files into one document. Use the arrows to
+    arrange their order before merging.
+  </p>
+
+  <label class="upload">
+    <strong>Select PDF files</strong>
+    Choose two or more PDF documents from your device.
+    <input id="pdfFiles" type="file" accept="application/pdf,.pdf" multiple>
+  </label>
+
+  <p id="pdfCount" aria-live="polite">No PDF files selected.</p>
+  <div id="pdfList" class="pdf-list"></div>
+
+  <div class="actions">
+    <button class="primary" id="mergeButton" disabled>Merge PDFs &amp; Download</button>
+    <button class="secondary" id="clearPdfs">Clear selection</button>
+  </div>
+
+  <p class="status" id="mergeMessage" role="status" aria-live="polite"></p>
+
+  <p class="note">
+    Merge PDF processes your selected documents in your browser.
+    The files are not uploaded to our website. Password-protected or
+    damaged PDFs may not be supported. Please keep your original files.
+  </p>
+</section>
+
+<p class="note">
+  Privacy note: document processing happens locally in your browser.
+  The PDF libraries are loaded from an external content delivery network,
+  so an internet connection is required to load them.
+</p>
 </main>
+
 <footer>Free PDF Tool · Free to use · Simple and private</footer>
 
+<!-- Libraries used by the two tools -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
 <script>
-const picker=document.getElementById("images");
-const convert=document.getElementById("convert");
-const clear=document.getElementById("clear");
-const count=document.getElementById("count");
-const preview=document.getElementById("preview");
-const message=document.getElementById("message");
-const paper=document.getElementById("paper");
-const orientation=document.getElementById("orientation");
-const margin=document.getElementById("margin");
-let files=[];
-let objectUrls=[];
+/* ===========================
+   TOOL 1: IMAGE TO PDF
+   =========================== */
+const imagePicker = document.getElementById("images");
+const imagePreview = document.getElementById("imagePreview");
+const imageCount = document.getElementById("imageCount");
+const createPdf = document.getElementById("createPdf");
+const clearImages = document.getElementById("clearImages");
+const imageMessage = document.getElementById("imageMessage");
+const paper = document.getElementById("paper");
+const orientation = document.getElementById("orientation");
+const margin = document.getElementById("margin");
 
-function cleanPreview(){
-  objectUrls.forEach(url=>URL.revokeObjectURL(url));
-  objectUrls=[];
-  preview.replaceChildren();
+let imageFiles = [];
+let imagePreviewUrls = [];
+
+function clearImagePreviews() {
+  imagePreviewUrls.forEach(url => URL.revokeObjectURL(url));
+  imagePreviewUrls = [];
+  imagePreview.replaceChildren();
 }
 
-picker.addEventListener("change",()=>{
-  cleanPreview();
-  files=Array.from(picker.files||[]).filter(f=>
-    ["image/jpeg","image/png","image/webp"].includes(f.type)
+imagePicker.addEventListener("change", () => {
+  clearImagePreviews();
+
+  imageFiles = Array.from(imagePicker.files || []).filter(file =>
+    ["image/jpeg", "image/png", "image/webp"].includes(file.type)
   );
-  files.forEach(file=>{
-    const card=document.createElement("div");
-    card.className="thumb";
-    const img=document.createElement("img");
-    img.alt="Preview of "+file.name;
-    const url=URL.createObjectURL(file);
-    objectUrls.push(url);
-    img.src=url;
-    const name=document.createElement("p");
-    name.textContent=file.name;
-    card.append(img,name);
-    preview.append(card);
+
+  imageFiles.forEach(file => {
+    const card = document.createElement("div");
+    card.className = "thumb";
+
+    const img = document.createElement("img");
+    img.alt = file.name;
+    const url = URL.createObjectURL(file);
+    imagePreviewUrls.push(url);
+    img.src = url;
+
+    const name = document.createElement("p");
+    name.textContent = file.name;
+    card.append(img, name);
+    imagePreview.append(card);
   });
-  count.textContent=files.length
-    ?files.length+" image(s) selected."
-    :"No supported images selected.";
-  convert.disabled=files.length===0;
-  message.textContent="";
+
+  imageCount.textContent = imageFiles.length
+    ? imageFiles.length + " image(s) selected."
+    : "No supported images selected.";
+
+  createPdf.disabled = imageFiles.length === 0;
+  imageMessage.textContent = "";
 });
 
-clear.addEventListener("click",()=>{
-  cleanPreview();
-  picker.value="";
-  files=[];
-  count.textContent="No images selected.";
-  convert.disabled=true;
-  message.textContent="";
+clearImages.addEventListener("click", () => {
+  clearImagePreviews();
+  imagePicker.value = "";
+  imageFiles = [];
+  imageCount.textContent = "No images selected.";
+  createPdf.disabled = true;
+  imageMessage.textContent = "";
 });
 
-function loadImage(file){
-  return new Promise((resolve,reject)=>{
-    const url=URL.createObjectURL(file);
-    const img=new Image();
-    img.onload=()=>resolve({img,url});
-    img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error("Could not read "+file.name));};
-    img.src=url;
+function readImage(file) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+
+    img.onload = () => resolve({ img, url });
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("Could not read " + file.name));
+    };
+    img.src = url;
   });
 }
 
-convert.addEventListener("click",async()=>{
-  if(!files.length)return;
-  if(!window.jspdf||!window.jspdf.jsPDF){
-    message.textContent="The PDF library did not load. Check your internet connection and try again.";
+createPdf.addEventListener("click", async () => {
+  if (!imageFiles.length) return;
+
+  if (!window.jspdf || !window.jspdf.jsPDF) {
+    imageMessage.textContent =
+      "The image-to-PDF library did not load. Check your internet connection and refresh the page.";
     return;
   }
 
-  convert.disabled=true;
-  clear.disabled=true;
-  message.textContent="Preparing your PDF. Please wait...";
+  createPdf.disabled = true;
+  clearImages.disabled = true;
+  const temporaryUrls = [];
 
-  const temporaryUrls=[];
-  try{
-    const {jsPDF}=window.jspdf;
-    const chosenPaper=paper.value;
-    const chosenOrientation=orientation.value;
-    const pad=Number(margin.value);
+  try {
+    const { jsPDF } = window.jspdf;
+    const selectedPaper = paper.value;
+    const selectedOrientation = orientation.value;
+    const pad = Number(margin.value);
+    let pdf = null;
 
-    let pdf=null;
+    for (let i = 0; i < imageFiles.length; i++) {
+      imageMessage.textContent =
+        "Processing image " + (i + 1) + " of " + imageFiles.length + "...";
 
-    for(let i=0;i<files.length;i++){
-      message.textContent="Processing image "+(i+1)+" of "+files.length+"...";
-
-      const loaded=await loadImage(files[i]);
-      const img=loaded.img;
+      const loaded = await readImage(imageFiles[i]);
+      const img = loaded.img;
       temporaryUrls.push(loaded.url);
 
-      const imageCanvas=document.createElement("canvas");
-      imageCanvas.width=img.naturalWidth;
-      imageCanvas.height=img.naturalHeight;
-      const ctx=imageCanvas.getContext("2d");
-      ctx.fillStyle="#ffffff";
-      ctx.fillRect(0,0,imageCanvas.width,imageCanvas.height);
-      ctx.drawImage(img,0,0);
+      let pageOrientation = selectedOrientation === "auto"
+        ? (img.naturalWidth > img.naturalHeight ? "landscape" : "portrait")
+        : selectedOrientation;
 
-      const imageData=imageCanvas.toDataURL("image/jpeg",0.95);
-      let pageOrientation=chosenOrientation==="auto"
-        ?(img.naturalWidth>img.naturalHeight?"landscape":"portrait")
-        :chosenOrientation;
-
-      let format=chosenPaper==="fit"
-        ?[img.naturalWidth*0.264583,img.naturalHeight*0.264583]
-        :chosenPaper;
-
-      if(chosenPaper==="fit"&&chosenOrientation!=="auto"){
-        const w=img.naturalWidth*0.264583;
-        const h=img.naturalHeight*0.264583;
-        format=pageOrientation==="landscape"
-          ?[Math.max(w,h),Math.min(w,h)]
-          :[Math.min(w,h),Math.max(w,h)];
+      let format = selectedPaper;
+      if (selectedPaper === "fit") {
+        const w = img.naturalWidth * 0.264583;
+        const h = img.naturalHeight * 0.264583;
+        format = pageOrientation === "landscape"
+          ? [Math.max(w, h), Math.min(w, h)]
+          : [Math.min(w, h), Math.max(w, h)];
       }
 
-      if(!pdf){
-        pdf=new jsPDF({orientation:pageOrientation,unit:"mm",format:format,compress:true});
-      }else{
-        pdf.addPage(format,pageOrientation);
+      if (!pdf) {
+        pdf = new jsPDF({
+          orientation: pageOrientation,
+          unit: "mm",
+          format: format,
+          compress: true
+        });
+      } else {
+        pdf.addPage(format, pageOrientation);
       }
 
-      const pageW=pdf.internal.pageSize.getWidth();
-      const pageH=pdf.internal.pageSize.getHeight();
-      const availableW=Math.max(1,pageW-2*pad);
-      const availableH=Math.max(1,pageH-2*pad);
-      const scale=Math.min(availableW/img.naturalWidth,availableH/img.naturalHeight);
-      const drawW=img.naturalWidth*scale;
-      const drawH=img.naturalHeight*scale;
-      const x=(pageW-drawW)/2;
-      const y=(pageH-drawH)/2;
+      const canvas = document.createElement("canvas");
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0);
 
-      pdf.addImage(imageData,"JPEG",x,y,drawW,drawH,undefined,"FAST");
-      imageCanvas.width=1;
-      imageCanvas.height=1;
+      const imageData = canvas.toDataURL("image/jpeg", 0.95);
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const availableW = Math.max(1, pageW - 2 * pad);
+      const availableH = Math.max(1, pageH - 2 * pad);
+      const scale = Math.min(
+        availableW / img.naturalWidth,
+        availableH / img.naturalHeight
+      );
+
+      const drawW = img.naturalWidth * scale;
+      const drawH = img.naturalHeight * scale;
+      pdf.addImage(
+        imageData, "JPEG",
+        (pageW - drawW) / 2,
+        (pageH - drawH) / 2,
+        drawW, drawH, undefined, "FAST"
+      );
+
+      canvas.width = 1;
+      canvas.height = 1;
     }
 
     pdf.save("my-images.pdf");
-    message.textContent="Success! Your PDF has been created and the download should begin.";
-  }catch(error){
-    message.textContent="Conversion failed. Try fewer or smaller images, or reload the page and try again.";
-  }finally{
-    temporaryUrls.forEach(url=>URL.revokeObjectURL(url));
-    convert.disabled=files.length===0;
-    clear.disabled=false;
+    imageMessage.textContent =
+      "Success! Your PDF download should begin now.";
+  } catch (error) {
+    imageMessage.textContent =
+      "Conversion failed. Try fewer or smaller images, then refresh and try again.";
+  } finally {
+    temporaryUrls.forEach(url => URL.revokeObjectURL(url));
+    createPdf.disabled = imageFiles.length === 0;
+    clearImages.disabled = false;
+  }
+});
+
+
+/* ===========================
+   TOOL 2: MERGE PDF
+   =========================== */
+const pdfPicker = document.getElementById("pdfFiles");
+const pdfList = document.getElementById("pdfList");
+const pdfCount = document.getElementById("pdfCount");
+const mergeButton = document.getElementById("mergeButton");
+const clearPdfs = document.getElementById("clearPdfs");
+const mergeMessage = document.getElementById("mergeMessage");
+
+let pdfFiles = [];
+
+function renderPdfList() {
+  pdfList.replaceChildren();
+
+  pdfFiles.forEach((file, index) => {
+    const row = document.createElement("div");
+    row.className = "pdf-item";
+
+    const name = document.createElement("div");
+    name.className = "pdf-name";
+    name.textContent = (index + 1) + ". " + file.name;
+
+    const actions = document.createElement("div");
+    actions.className = "pdf-actions";
+
+    const up = document.createElement("button");
+    up.type = "button";
+    up.className = "secondary";
+    up.textContent = "↑";
+    up.title = "Move up";
+    up.setAttribute("aria-label", "Move " + file.name + " up");
+    up.disabled = index === 0;
+    up.addEventListener("click", () => {
+      [pdfFiles[index - 1], pdfFiles[index]] =
+        [pdfFiles[index], pdfFiles[index - 1]];
+      renderPdfList();
+    });
+
+    const down = document.createElement("button");
+    down.type = "button";
+    down.className = "secondary";
+    down.textContent = "↓";
+    down.title = "Move down";
+    down.setAttribute("aria-label", "Move " + file.name + " down");
+    down.disabled = index === pdfFiles.length - 1;
+    down.addEventListener("click", () => {
+      [pdfFiles[index + 1], pdfFiles[index]] =
+        [pdfFiles[index], pdfFiles[index + 1]];
+      renderPdfList();
+    });
+
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "secondary";
+    remove.textContent = "Remove";
+    remove.addEventListener("click", () => {
+      pdfFiles.splice(index, 1);
+      renderPdfList();
+      mergeMessage.textContent = "";
+    });
+
+    actions.append(up, down, remove);
+    row.append(name, actions);
+    pdfList.append(row);
+  });
+
+  pdfCount.textContent = pdfFiles.length
+    ? pdfFiles.length + " PDF file(s) selected."
+    : "No PDF files selected.";
+
+  mergeButton.disabled = pdfFiles.length < 2;
+}
+
+pdfPicker.addEventListener("change", () => {
+  const chosen = Array.from(pdfPicker.files || []);
+  const valid = chosen.filter(file =>
+    file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf")
+  );
+
+  pdfFiles = valid;
+  renderPdfList();
+  mergeMessage.textContent = "";
+
+  if (valid.length !== chosen.length) {
+    mergeMessage.textContent = "Only PDF files can be added.";
+  } else if (valid.length === 1) {
+    mergeMessage.textContent = "Please select at least two PDF files.";
+  }
+});
+
+clearPdfs.addEventListener("click", () => {
+  pdfPicker.value = "";
+  pdfFiles = [];
+  renderPdfList();
+  mergeMessage.textContent = "";
+});
+
+mergeButton.addEventListener("click", async () => {
+  if (pdfFiles.length < 2) {
+    mergeMessage.textContent = "Please select at least two PDF files.";
+    return;
+  }
+
+  if (!window.PDFLib || !window.PDFLib.PDFDocument) {
+    mergeMessage.textContent =
+      "The PDF merge library did not load. Check your internet connection and refresh the page.";
+    return;
+  }
+
+  mergeButton.disabled = true;
+  clearPdfs.disabled = true;
+  pdfPicker.disabled = true;
+
+  try {
+    const { PDFDocument } = window.PDFLib;
+    const mergedPdf = await PDFDocument.create();
+
+    for (let i = 0; i < pdfFiles.length; i++) {
+      const file = pdfFiles[i];
+      mergeMessage.textContent =
+        "Merging file " + (i + 1) + " of " + pdfFiles.length + ": " + file.name;
+
+      const bytes = await file.arrayBuffer();
+      const sourcePdf = await PDFDocument.load(bytes);
+      const pages = await mergedPdf.copyPages(
+        sourcePdf, sourcePdf.getPageIndices()
+      );
+
+      pages.forEach(page => mergedPdf.addPage(page));
+    }
+
+    mergeMessage.textContent = "Preparing your merged PDF...";
+    const outputBytes = await mergedPdf.save();
+    const blob = new Blob([outputBytes], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "merged.pdf";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+    mergeMessage.textContent =
+      "Success! Your merged PDF download should begin now.";
+  } catch (error) {
+    mergeMessage.textContent =
+      "Merging failed. A file may be damaged or password-protected. Try opening each PDF first and use unprotected files.";
+  } finally {
+    mergeButton.disabled = pdfFiles.length < 2;
+    clearPdfs.disabled = false;
+    pdfPicker.disabled = false;
   }
 });
 </script>
