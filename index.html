@@ -2,250 +2,248 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Convert images into PDF files free in your browser.">
-  <title>Free PDF Tool - Image to PDF Converter</title>
-  <style>
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f1f5f9;
-      color: #172033;
-    }
-
-    header {
-      background: #123b70;
-      color: white;
-      text-align: center;
-      padding: 28px 15px;
-    }
-
-    header h1 { margin: 0 0 10px; }
-    header p { margin: 0; }
-
-    main {
-      max-width: 720px;
-      margin: 35px auto;
-      padding: 25px;
-    }
-
-    .panel {
-      background: white;
-      border-radius: 16px;
-      padding: 28px;
-      box-shadow: 0 5px 22px #0000000d;
-    }
-
-    h2 { margin-top: 0; }
-
-    .upload {
-      display: block;
-      padding: 25px;
-      margin: 20px 0;
-      border: 2px dashed #6995c9;
-      border-radius: 12px;
-      text-align: center;
-      background: #f7fbff;
-    }
-
-    input[type="file"] {
-      display: block;
-      width: 100%;
-      margin-top: 15px;
-    }
-
-    button {
-      border: 0;
-      border-radius: 9px;
-      padding: 13px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      margin: 6px 4px 6px 0;
-    }
-
-    .primary { background: #1769d2; color: white; }
-    .secondary { background: #e2e8f0; color: #172033; }
-    button:disabled { opacity: .5; cursor: not-allowed; }
-
-    #message { margin-top: 18px; line-height: 1.5; }
-    #preview { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; margin-top: 20px; }
-
-    .thumb {
-      border: 1px solid #dbe3ee;
-      border-radius: 9px;
-      padding: 8px;
-      overflow-wrap: anywhere;
-      font-size: 12px;
-    }
-
-    .thumb img { width: 100%; height: 100px; object-fit: contain; }
-    .note { color: #536174; font-size: 14px; line-height: 1.6; }
-
-    footer { text-align: center; padding: 20px; color: #64748b; font-size: 13px; }
-
-    @media (max-width: 600px) {
-      main { margin: 15px auto; padding: 12px; }
-      .panel { padding: 18px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Convert JPG, PNG and WebP images into PDF files for free. Choose page size and orientation.">
+<title>Free PDF Tool | Image to PDF</title>
+<style>
+:root{--blue:#185abd;--dark:#15345b;--bg:#f3f7fc;--text:#17263c;--muted:#63738a;--line:#dce5f0}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+header{background:linear-gradient(135deg,#12345b,#246bd0);color:white;text-align:center;padding:35px 16px}
+header h1{margin:0 0 10px;font-size:clamp(26px,5vw,38px)}
+header p{margin:0;line-height:1.6}
+main{max-width:850px;margin:30px auto;padding:0 16px}
+.panel{background:white;border:1px solid var(--line);border-radius:18px;padding:clamp(18px,4vw,32px);box-shadow:0 8px 30px #18385b0c}
+h2{margin:0 0 10px}
+.intro{color:var(--muted);line-height:1.6}
+.upload{display:block;margin:22px 0;padding:26px 16px;border:2px dashed #83a9dd;background:#f6faff;border-radius:14px;text-align:center;cursor:pointer}
+.upload strong{display:block;margin-bottom:10px}
+input[type=file]{max-width:100%;margin-top:8px}
+.options{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin:22px 0}
+.field label{display:block;font-weight:bold;font-size:14px;margin-bottom:8px}
+select{width:100%;padding:12px;border:1px solid #cbd7e6;border-radius:9px;background:white;font-size:15px}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px}
+button{border:0;border-radius:9px;padding:13px 19px;font-size:15px;font-weight:bold;cursor:pointer}
+.primary{background:var(--blue);color:white}
+.secondary{background:#e8eef7;color:var(--dark)}
+button:disabled{opacity:.5;cursor:not-allowed}
+#preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(125px,1fr));gap:12px;margin-top:18px}
+.thumb{min-width:0;border:1px solid var(--line);border-radius:10px;padding:9px;background:white}
+.thumb img{width:100%;height:115px;object-fit:contain;display:block;background:#f7f9fc}
+.thumb p{font-size:12px;overflow-wrap:anywhere;margin:8px 0 0}
+#message{margin-top:18px;line-height:1.6;overflow-wrap:anywhere}
+.note{color:var(--muted);font-size:13px;line-height:1.7;margin-top:22px}
+footer{text-align:center;padding:24px 14px;color:var(--muted);font-size:13px}
+@media(max-width:480px){header{padding:28px 14px}.actions button{width:100%}}
+</style>
 </head>
 <body>
-  <header>
-    <h1>Free PDF Tool</h1>
-    <p>Convert your images into a PDF in seconds</p>
-  </header>
+<header>
+<h1>Free PDF Tool</h1>
+<p>Convert your images into a PDF — simply and privately.</p>
+</header>
 
-  <main>
-    <section class="panel">
-      <h2>Image to PDF Converter</h2>
-      <p>Select one or more JPG, PNG, or WebP images. Each image will appear on its own PDF page.</p>
+<main>
+<section class="panel">
+<h2>Image to PDF Converter</h2>
+<p class="intro">Choose your images, select your page settings, and download one PDF. Each image gets its own page.</p>
 
-      <label class="upload">
-        <strong>Choose images from your device</strong>
-        <input id="images" type="file" accept="image/*" multiple>
-      </label>
+<label class="upload">
+<strong>Select JPG, PNG or WebP images</strong>
+<span>Choose one or several images from your device</span><br>
+<input id="images" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+</label>
 
-      <p id="count">No images selected.</p>
-      <div id="preview"></div>
+<div id="count" aria-live="polite">No images selected.</div>
+<div id="preview"></div>
 
-      <div style="margin-top:22px">
-        <button class="primary" id="convert" disabled>Create PDF</button>
-        <button class="secondary" id="clear">Clear selection</button>
-      </div>
+<div class="options">
+<div class="field">
+<label for="paper">PDF page size</label>
+<select id="paper">
+<option value="a4">A4</option>
+<option value="letter">Letter</option>
+<option value="fit">Fit to image</option>
+</select>
+</div>
+<div class="field">
+<label for="orientation">Page orientation</label>
+<select id="orientation">
+<option value="portrait">Portrait</option>
+<option value="landscape">Landscape</option>
+<option value="auto">Match each image</option>
+</select>
+</div>
+<div class="field">
+<label for="margin">Page margin</label>
+<select id="margin">
+<option value="5">Small (5 mm)</option>
+<option value="10" selected>Normal (10 mm)</option>
+<option value="15">Large (15 mm)</option>
+<option value="0">No margin</option>
+</select>
+</div>
+</div>
 
-      <p id="message" role="status" aria-live="polite"></p>
+<div class="actions">
+<button class="primary" id="convert" disabled>Create PDF</button>
+<button class="secondary" id="clear">Clear selection</button>
+</div>
 
-      <p class="note">
-        Privacy: your selected images are processed in your browser and are not uploaded to our website.
-        Keep a copy of your original images.
-      </p>
-    </section>
-  </main>
+<p id="message" role="status" aria-live="polite"></p>
+<p class="note"><strong>Your privacy matters:</strong> selected images are processed in your browser and are not uploaded to our website. An internet connection is needed to load the PDF library. For best clarity, use original, high-resolution images rather than photographs of screens.</p>
+</section>
+</main>
+<footer>Free PDF Tool · Free to use · Simple and private</footer>
 
-  <footer>Free PDF Tool · Simple, private, and easy to use</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const picker=document.getElementById("images");
+const convert=document.getElementById("convert");
+const clear=document.getElementById("clear");
+const count=document.getElementById("count");
+const preview=document.getElementById("preview");
+const message=document.getElementById("message");
+const paper=document.getElementById("paper");
+const orientation=document.getElementById("orientation");
+const margin=document.getElementById("margin");
+let files=[];
+let objectUrls=[];
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script>
-    const picker = document.getElementById("images");
-    const convert = document.getElementById("convert");
-    const clear = document.getElementById("clear");
-    const count = document.getElementById("count");
-    const preview = document.getElementById("preview");
-    const message = document.getElementById("message");
+function cleanPreview(){
+  objectUrls.forEach(url=>URL.revokeObjectURL(url));
+  objectUrls=[];
+  preview.replaceChildren();
+}
 
-    let selectedImages = [];
+picker.addEventListener("change",()=>{
+  cleanPreview();
+  files=Array.from(picker.files||[]).filter(f=>
+    ["image/jpeg","image/png","image/webp"].includes(f.type)
+  );
+  files.forEach(file=>{
+    const card=document.createElement("div");
+    card.className="thumb";
+    const img=document.createElement("img");
+    img.alt="Preview of "+file.name;
+    const url=URL.createObjectURL(file);
+    objectUrls.push(url);
+    img.src=url;
+    const name=document.createElement("p");
+    name.textContent=file.name;
+    card.append(img,name);
+    preview.append(card);
+  });
+  count.textContent=files.length
+    ?files.length+" image(s) selected."
+    :"No supported images selected.";
+  convert.disabled=files.length===0;
+  message.textContent="";
+});
 
-    picker.addEventListener("change", () => {
-      selectedImages = Array.from(picker.files || [])
-        .filter(file => file.type.startsWith("image/"));
+clear.addEventListener("click",()=>{
+  cleanPreview();
+  picker.value="";
+  files=[];
+  count.textContent="No images selected.";
+  convert.disabled=true;
+  message.textContent="";
+});
 
-      preview.replaceChildren();
+function loadImage(file){
+  return new Promise((resolve,reject)=>{
+    const url=URL.createObjectURL(file);
+    const img=new Image();
+    img.onload=()=>resolve({img,url});
+    img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error("Could not read "+file.name));};
+    img.src=url;
+  });
+}
 
-      selectedImages.forEach(file => {
-        const card = document.createElement("div");
-        card.className = "thumb";
+convert.addEventListener("click",async()=>{
+  if(!files.length)return;
+  if(!window.jspdf||!window.jspdf.jsPDF){
+    message.textContent="The PDF library did not load. Check your internet connection and try again.";
+    return;
+  }
 
-        const img = document.createElement("img");
-        img.alt = file.name;
-        img.src = URL.createObjectURL(file);
+  convert.disabled=true;
+  clear.disabled=true;
+  message.textContent="Preparing your PDF. Please wait...";
 
-        const name = document.createElement("p");
-        name.textContent = file.name;
+  const temporaryUrls=[];
+  try{
+    const {jsPDF}=window.jspdf;
+    const chosenPaper=paper.value;
+    const chosenOrientation=orientation.value;
+    const pad=Number(margin.value);
 
-        card.append(img, name);
-        preview.append(card);
-      });
+    let pdf=null;
 
-      count.textContent = selectedImages.length
-        ? selectedImages.length + " image(s) selected."
-        : "No images selected.";
+    for(let i=0;i<files.length;i++){
+      message.textContent="Processing image "+(i+1)+" of "+files.length+"...";
 
-      convert.disabled = selectedImages.length === 0;
-      message.textContent = "";
-    });
+      const loaded=await loadImage(files[i]);
+      const img=loaded.img;
+      temporaryUrls.push(loaded.url);
 
-    clear.addEventListener("click", () => {
-      preview.querySelectorAll("img").forEach(img => URL.revokeObjectURL(img.src));
-      picker.value = "";
-      selectedImages = [];
-      preview.replaceChildren();
-      count.textContent = "No images selected.";
-      convert.disabled = true;
-      message.textContent = "";
-    });
+      const imageCanvas=document.createElement("canvas");
+      imageCanvas.width=img.naturalWidth;
+      imageCanvas.height=img.naturalHeight;
+      const ctx=imageCanvas.getContext("2d");
+      ctx.fillStyle="#ffffff";
+      ctx.fillRect(0,0,imageCanvas.width,imageCanvas.height);
+      ctx.drawImage(img,0,0);
 
-    convert.addEventListener("click", async () => {
-      if (!selectedImages.length) return;
+      const imageData=imageCanvas.toDataURL("image/jpeg",0.95);
+      let pageOrientation=chosenOrientation==="auto"
+        ?(img.naturalWidth>img.naturalHeight?"landscape":"portrait")
+        :chosenOrientation;
 
-      if (!window.jspdf || !window.jspdf.jsPDF) {
-        message.textContent = "The PDF library could not load. Check your internet connection and try again.";
-        return;
+      let format=chosenPaper==="fit"
+        ?[img.naturalWidth*0.264583,img.naturalHeight*0.264583]
+        :chosenPaper;
+
+      if(chosenPaper==="fit"&&chosenOrientation!=="auto"){
+        const w=img.naturalWidth*0.264583;
+        const h=img.naturalHeight*0.264583;
+        format=pageOrientation==="landscape"
+          ?[Math.max(w,h),Math.min(w,h)]
+          :[Math.min(w,h),Math.max(w,h)];
       }
 
-      convert.disabled = true;
-      message.textContent = "Creating your PDF. Please wait...";
-
-      try {
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
-        const pageWidth = 210;
-        const pageHeight = 297;
-        const margin = 10;
-
-        for (let i = 0; i < selectedImages.length; i++) {
-          const file = selectedImages[i];
-
-          const dataUrl = await new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = () => reject(new Error("Could not read " + file.name));
-            reader.readAsDataURL(file);
-          });
-
-          const image = await new Promise((resolve, reject) => {
-            const img = new Image();
-            img.onload = () => resolve(img);
-            img.onerror = () => reject(new Error("Could not open " + file.name));
-            img.src = dataUrl;
-          });
-
-          if (i > 0) pdf.addPage();
-
-          const ratio = Math.min(
-            (pageWidth - 2 * margin) / image.width,
-            (pageHeight - 2 * margin) / image.height
-          );
-
-          const width = image.width * ratio;
-          const height = image.height * ratio;
-          const x = (pageWidth - width) / 2;
-          const y = (pageHeight - height) / 2;
-
-          const format = file.type === "image/png" ? "PNG" : "JPEG";
-          let imageData = dataUrl;
-
-          if (file.type === "image/webp") {
-            const canvas = document.createElement("canvas");
-            canvas.width = image.width;
-            canvas.height = image.height;
-            canvas.getContext("2d").drawImage(image, 0, 0);
-            imageData = canvas.toDataURL("image/jpeg", 0.92);
-          }
-
-          pdf.addImage(imageData, format === "PNG" ? "PNG" : "JPEG", x, y, width, height);
-        }
-
-        pdf.save("my-images.pdf");
-        message.textContent = "Success! Your PDF download should begin now.";
-      } catch (error) {
-        message.textContent = "Sorry, conversion failed. Try fewer or smaller images.";
-      } finally {
-        convert.disabled = selectedImages.length === 0;
+      if(!pdf){
+        pdf=new jsPDF({orientation:pageOrientation,unit:"mm",format:format,compress:true});
+      }else{
+        pdf.addPage(format,pageOrientation);
       }
-    });
-  </script>
+
+      const pageW=pdf.internal.pageSize.getWidth();
+      const pageH=pdf.internal.pageSize.getHeight();
+      const availableW=Math.max(1,pageW-2*pad);
+      const availableH=Math.max(1,pageH-2*pad);
+      const scale=Math.min(availableW/img.naturalWidth,availableH/img.naturalHeight);
+      const drawW=img.naturalWidth*scale;
+      const drawH=img.naturalHeight*scale;
+      const x=(pageW-drawW)/2;
+      const y=(pageH-drawH)/2;
+
+      pdf.addImage(imageData,"JPEG",x,y,drawW,drawH,undefined,"FAST");
+      imageCanvas.width=1;
+      imageCanvas.height=1;
+    }
+
+    pdf.save("my-images.pdf");
+    message.textContent="Success! Your PDF has been created and the download should begin.";
+  }catch(error){
+    message.textContent="Conversion failed. Try fewer or smaller images, or reload the page and try again.";
+  }finally{
+    temporaryUrls.forEach(url=>URL.revokeObjectURL(url));
+    convert.disabled=files.length===0;
+    clear.disabled=false;
+  }
+});
+</script>
 </body>
 </html>
