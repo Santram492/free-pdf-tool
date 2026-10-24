@@ -155,6 +155,7 @@ footer { text-align: center; padding: 24px 14px; color: var(--muted); font-size:
   <nav>
     <a href="#image-tool">Image to PDF</a>
     <a href="#merge-tool">Merge PDF</a>
+    <a href="#split-pdf-tool">Split PDF</a>
   </nav>
 </header>
 
@@ -248,6 +249,24 @@ footer { text-align: center; padding: 24px 14px; color: var(--muted); font-size:
   The PDF libraries are loaded from an external content delivery network,
   so an internet connection is required to load them.
 </p>
+  <section id="split-pdf-tool" style="max-width:700px;margin:30px auto;padding:24px;border:1px solid #ddd;border-radius:12px;font-family:Arial,sans-serif;">
+  <h2>Split PDF</h2>
+  <p>Extract selected pages from a PDF file. Example: 1,3-5</p>
+
+  <input type="file" id="splitPdfFile" accept=".pdf,application/pdf">
+
+  <p>
+    <label for="splitPdfPages">Page numbers to extract:</label><br>
+    <input type="text" id="splitPdfPages" placeholder="Example: 1,3-5" style="width:100%;max-width:300px;padding:10px;box-sizing:border-box;">
+  </p>
+
+  <p id="splitPdfStatus" role="status" aria-live="polite"></p>
+
+  <button id="splitPdfButton" type="button" style="padding:12px 20px;background:#3859d8;color:white;border:0;border-radius:8px;cursor:pointer;">
+    Split PDF
+  </button>
+</section>
+
 </main>
 
 <footer>Free PDF Tool · Free to use · Simple and private</footer>
@@ -588,98 +607,7 @@ mergeButton.addEventListener("click", async () => {
 });
 </script>
 
-<section id="merge-pdf-tool" style="max-width:700px;margin:30px auto;padding:24px;border:1px solid #ddd;border-radius:12px;font-family:Arial,sans-serif;">
-  <h2>Merge PDF Files</h2>
-  <p>Select two or more PDF files to combine them into one document.</p>
 
-  <input type="file" id="mergePdfFiles" accept=".pdf,application/pdf" multiple>
-
-  <p id="mergePdfStatus" role="status" aria-live="polite"></p>
-
-  <button id="mergePdfButton" type="button"
-    style="padding:12px 20px;background:#3859d8;color:white;border:0;border-radius:8px;cursor:pointer;">
-    Merge PDF Files
-  </button>
-</section>
-
-  
-<script>
-document.getElementById('mergePdfButton').addEventListener('click', async function () {
-  const input = document.getElementById('mergePdfFiles');
-  const status = document.getElementById('mergePdfStatus');
-  const button = this;
-  const files = Array.from(input.files || []);
-
-  if (files.length < 2) {
-    status.textContent = 'Please select at least two PDF files.';
-    return;
-  }
-
-  if (!window.PDFLib) {
-    status.textContent = 'PDF library not loaded. Please refresh the page and try again.';
-    return;
-  }
-
-  button.disabled = true;
-  status.textContent = 'Merging your PDF files. Please wait...';
-
-  try {
-    const mergedPdf = await PDFLib.PDFDocument.create();
-
-    for (const file of files) {
-      const bytes = await file.arrayBuffer();
-      const sourcePdf = await PDFLib.PDFDocument.load(bytes);
-      const pages = await mergedPdf.copyPages(
-        sourcePdf,
-        sourcePdf.getPageIndices()
-      );
-
-      pages.forEach(page => mergedPdf.addPage(page));
-    }
-
-    const mergedBytes = await mergedPdf.save();
-    const blob = new Blob([mergedBytes], {
-      type: 'application/pdf'
-    });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-
-    link.href = url;
-    link.download = 'merged-document.pdf';
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-
-    setTimeout(() => URL.revokeObjectURL(url), 2000);
-    status.textContent = 'Success! Your merged PDF has been downloaded.';
-  } catch (error) {
-    console.error(error);
-    status.textContent =
-      'Merging failed. Check that the selected PDFs are valid and not password-protected.';
-  } finally {
-    button.disabled = false;
-  }
-});
-</script>
-</script>
-
-<section id="split-pdf-tool" style="max-width:700px;margin:30px auto;padding:24px;border:1px solid #ddd;border-radius:12px;font-family:Arial,sans-serif;">
-  <h2>Split PDF</h2>
-  <p>Extract selected pages from a PDF file. Example: 1,3-5</p>
-
-  <input type="file" id="splitPdfFile" accept=".pdf,application/pdf">
-
-  <p>
-    <label for="splitPdfPages">Page numbers to extract:</label><br>
-    <input type="text" id="splitPdfPages" placeholder="Example: 1,3-5" style="width:100%;max-width:300px;padding:10px;box-sizing:border-box;">
-  </p>
-
-  <p id="splitPdfStatus" role="status" aria-live="polite"></p>
-
-  <button id="splitPdfButton" type="button" style="padding:12px 20px;background:#3859d8;color:white;border:0;border-radius:8px;cursor:pointer;">
-    Split PDF
-  </button>
-</section>
 
  
 <script>
@@ -765,10 +693,6 @@ document.getElementById('splitPdfButton').addEventListener('click', async functi
   }
 });
 </script>
- 
-
-</body>
+ </body>
 </html>
   
-</body>
-</html>
