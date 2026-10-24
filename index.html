@@ -156,6 +156,7 @@ footer { text-align: center; padding: 24px 14px; color: var(--muted); font-size:
     <a href="#image-tool">Image to PDF</a>
     <a href="#merge-tool">Merge PDF</a>
     <a href="#split-pdf-tool">Split PDF</a>
+    <a href="#rotate-pdf-tool">Rotate PDF</a>
   </nav>
 </header>
 
@@ -264,6 +265,19 @@ footer { text-align: center; padding: 24px 14px; color: var(--muted); font-size:
 
   <button id="splitPdfButton" type="button" style="padding:12px 20px;background:#3859d8;color:white;border:0;border-radius:8px;cursor:pointer;">
     Split PDF
+  </button>
+</section>
+
+<section id="rotate-pdf-tool" style="max-width:700px;margin:30px auto;padding:24px;border:1px solid #ddd;border-radius:12px;font-family:Arial,sans-serif;">
+  <h2>Rotate PDF</h2>
+  <p>Select a PDF file and rotate all its pages 90 degrees clockwise.</p>
+
+  <input type="file" id="rotatePdfFile" accept=".pdf,application/pdf">
+
+  <p id="rotatePdfStatus" role="status" aria-live="polite"></p>
+
+  <button id="rotatePdfButton" type="button" style="padding:12px 20px;background:#3859d8;color:white;border:0;border-radius:8px;cursor:pointer;">
+    Rotate PDF
   </button>
 </section>
 
@@ -693,6 +707,53 @@ document.getElementById('splitPdfButton').addEventListener('click', async functi
   }
 });
 </script>
+
+<script>
+document.getElementById('rotatePdfButton').addEventListener('click', async function () {
+  const fileInput = document.getElementById('rotatePdfFile');
+  const status = document.getElementById('rotatePdfStatus');
+  const button = this;
+  const file = fileInput.files[0];
+
+  if (!file) {
+    status.textContent = 'Please select a PDF file first.';
+    return;
+  }
+
+  button.disabled = true;
+  status.textContent = 'Rotating PDF...';
+
+  try {
+    const { PDFDocument, degrees } = PDFLib;
+    const bytes = await file.arrayBuffer();
+    const pdfDoc = await PDFDocument.load(bytes);
+
+    pdfDoc.getPages().forEach(page => {
+      page.setRotation(degrees((page.getRotation().angle + 90) % 360));
+    });
+
+    const pdfBytes = await pdfDoc.save();
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+
+    link.href = url;
+    link.download = 'rotated-' + file.name;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    status.textContent = 'Success! Your rotated PDF has been downloaded.';
+  } catch (error) {
+    console.error(error);
+    status.textContent = 'Could not rotate this PDF. Please check that the file is valid and not password-protected.';
+  } finally {
+    button.disabled = false;
+  }
+});
+</script>
+  
  </body>
 </html>
   
